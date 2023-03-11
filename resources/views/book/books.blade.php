@@ -5,24 +5,38 @@
         <h1 class="text-lg font-semibold text-gray-800 mb-3">Library Collection</h1>
         <div class="grid grid-cols-3 gap-10">
             @foreach ($books as $book)
-                    <a href="{{ route('books.show', $book->slug) }}" class="group transition rounded-md hover:scale-95 duration-300 relative">
-                        <img src="{{ asset('storage/' . $book->image) }}" alt="gusdur"
-                            class="w-full h-96 object-cover rounded">
-                        <h1 class="mt-2 font-bold text-lg text-gray-700 truncate group-hover:truncate-none peer">{{ $book->title }}</h1>
-                        <div class="p-2 absolute bg-white shadow-lg border border border-slate-300 rounded right-0 left-0 transition-all duration-300 z-[-10] peer-hover:z-10 opacity-0 translate-y-5 peer-hover:translate-y-0 peer-hover:opacity-100 hover:translate-y-0 hover:opacity-100 hover:z-10">{{ $book->title }}</div>
-                        <div class="text-sm flex text-gray-700 items-center font-medium">
-                            <i data-feather="edit-3" width="16px"></i>
-                            <span class="ml-2">{{ $book->penulis }}</span>
-                        </div>
-                        <div class="text-sm flex text-gray-700 items-center font-medium">
-                            <i data-feather="calendar" width="16px"></i>
-                            <span class="ml-2">Maret 20, 2022</span>
-                        </div>
-                        <div class="text-sm flex text-gray-700 items-center font-medium">
-                            <i data-feather="layers" width="16px"></i>
-                            <span class="ml-2">200 Pages</span>
-                        </div>
-                    </a>
+                <a href="{{ route('books.show', $book->slug) }}"
+                    class="group transition rounded-md hover:scale-95 duration-300 relative">
+                    @if ($book->borrow->isNotEmpty())
+                        @foreach ($book->borrow as $borrow)
+                            @if ($borrow->user_id == auth()->user()->id && $borrow->status == 'meminjam')
+                                <div class="bg-zinc-800 p-3 py-1 text-white rounded-r-lg text-sm absolute top-3">Dipinjam</div>
+                            @endif
+                        @endforeach
+                    @elseif($book->stok == 0)
+                        <div class="bg-zinc-800 p-3 py-1 text-white rounded-r-lg text-sm absolute top-3">Tidak Tersedia</div>
+                    @else
+                        <div class="bg-green-600 p-3 py-1 text-white rounded-r-lg text-sm absolute top-3">Tersedia</div>
+                    @endif
+                    <img src="{{ asset('storage/' . $book->image) }}" alt="gusdur" class="w-full h-96 object-cover rounded">
+                    <h1 class="mt-2 font-bold text-lg text-gray-700 truncate group-hover:truncate-none peer">
+                        {{ $book->title }}</h1>
+                    <div
+                        class="p-2 absolute bg-white shadow-lg border border border-slate-300 rounded right-0 left-0 transition-all duration-300 z-[-10] peer-hover:z-10 opacity-0 translate-y-5 peer-hover:translate-y-0 peer-hover:opacity-100 hover:translate-y-0 hover:opacity-100 hover:z-10">
+                        {{ $book->title }}</div>
+                    <div class="text-sm flex text-gray-700 items-center font-medium">
+                        <i data-feather="edit-3" width="16px"></i>
+                        <span class="ml-2">{{ $book->penulis }}</span>
+                    </div>
+                    <div class="text-sm flex text-gray-700 items-center font-medium">
+                        <i data-feather="calendar" width="16px"></i>
+                        <span class="ml-2">Maret 20, 2022</span>
+                    </div>
+                    <div class="text-sm flex text-gray-700 items-center font-medium">
+                        <i data-feather="layers" width="16px"></i>
+                        <span class="ml-2">200 Pages</span>
+                    </div>
+                </a>
             @endforeach
         </div>
     </div>

@@ -58,6 +58,7 @@ class BooksController extends Controller
         $validateData = $request->validate([
             'title' => 'required|max:255',
             'slug' => 'required|unique:books',
+            'kode_buku' => 'required|unique:books',
             'category_id' => 'required',
             'user_id' => 'required',
             'penulis' => 'required',
@@ -114,6 +115,7 @@ class BooksController extends Controller
         $validateData = $request->validate([
             'title' => 'sometimes|required|max:255',
             'slug' => 'sometimes|required',
+            'kode_buku' => 'sometimes|required|',
             'category_id' => 'sometimes|required',
             'user_id' => 'sometimes|required',
             'penulis' => 'sometimes|required',

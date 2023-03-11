@@ -55,10 +55,18 @@
                             class="bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
                             placeholder="Kisah Nyata" required value="{{ $book->thn_terbit }}">
                     </div>
-                    <div>
-                        <label for="desc" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
-                        <textarea name="description" id="desc" cols="30" rows="10"
-                            class="bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5">{{ $book->description }}</textarea>
+                    <div class="w-full">
+                        <div>
+                            <label for="kodebuku" class="block mb-2 text-sm font-medium text-gray-900">Kode Buku</label>
+                            <input type="text" name="kode_buku" id="kodebuku"
+                                class="mb-2 bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
+                                placeholder="049472872" required value="{{ $book->kode_buku }}">
+                        </div>
+                        <div>
+                            <label for="desc" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
+                            <textarea name="description" id="desc" cols="30" rows="10"
+                                class="bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5">{{ $book->description }}</textarea>
+                        </div>
                     </div>
                     <label class="block">
                         <span class="sr-only">Choose profile photo</span>

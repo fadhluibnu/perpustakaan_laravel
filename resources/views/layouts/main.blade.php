@@ -61,7 +61,7 @@
                 @endcan
             </div>
             @can('isUser')
-            {{-- w-2/6  --}}
+                {{-- w-2/6  --}}
                 @if (Request::is(route('books.index', '*')))
                     <div class="w-[30rem] bg-white h-screen">
                     </div>
@@ -165,6 +165,12 @@
                 preview.src = src;
                 preview.style.display = "block";
             }
+        }
+        const clsNotif = document.querySelector('#btn-notif');
+        const notif = document.querySelector('#hilangkan');
+
+        clsNotif.onclick = function() {
+            notif.classList.add("hidden");
         }
     </script>+
 </body>

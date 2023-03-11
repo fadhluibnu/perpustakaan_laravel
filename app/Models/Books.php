@@ -22,4 +22,12 @@ class Books extends Model
     {
         return 'slug';
     }
+    public function borrow()
+    {
+        return $this->hasMany(Borrow::class, 'book_id');
+    }
+    public function histories()
+    {
+        return $this->hasMany(History::class, 'books_id');
+    }
 }

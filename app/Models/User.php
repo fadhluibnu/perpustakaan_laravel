@@ -47,4 +47,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Books::class, 'user_id');
     }
+    public function borrow()
+    {
+        return $this->hasOne(Borrow::class, 'user_id');
+    }
+    public function histories()
+    {
+        return $this->hasMany(History::class, 'user_id');
+    }
 }
