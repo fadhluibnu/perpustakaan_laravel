@@ -111,7 +111,9 @@
                         </div>
                         <form  
                         @if (Request::is('books*'))
-                            action="{{ route('books.index') }}" 
+                            action="{{ route('books.index') }}"
+                        @elseif(Request::is('borrow*'))
+                            action="{{ route('borrow.index') }}" 
                         @endif 
                         method="get" class="w-full flex justify-end ml-3">
                             <label class="relative block w-full">

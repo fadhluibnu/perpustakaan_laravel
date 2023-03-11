@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Books;
 use App\Models\Borrow;
 use App\Models\History;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -18,17 +19,28 @@ class BorrowController extends Controller
     public function index()
     {
         $title = '';
+        $borrow = new Borrow;
+
+        if (request('search') && Gate::allows('isUser')) {
+            $borrow = $borrow->whereHas('book', function (Builder $query) {
+                $query->where('title', 'like', '%' . request('search') . '%');
+            });
+        }else{
+            $borrow = $borrow->where('kode_peminjaman', 'like', '%' . request('search') . '%');
+        }
 
         if (Gate::allows('isUser')) {
             $title .= 'Borrowing';
+            $borrow = $borrow->where('user_id', auth()->user()->id)->get();
         }
         if (Gate::allows('isAdmin')) {
             $title .= 'All Borrowing';
+            $borrow = $borrow->orderByDesc('status')->get();
         }
 
         return view('borrow.borrow', [
             'title' => $title,
-            'borrows' => Borrow::all()
+            'borrows' => $borrow
         ]);
     }
 
