@@ -6,6 +6,7 @@ use App\Models\Books;
 use App\Models\Borrow;
 use App\Models\History;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class BorrowController extends Controller
 {
@@ -16,8 +17,19 @@ class BorrowController extends Controller
      */
     public function index()
     {
-        $book = Books::where('id', 1)->first();
-        return $book->borrow->user;
+        $title = '';
+
+        if (Gate::allows('isUser')) {
+            $title .= 'Borrowing';
+        }
+        if (Gate::allows('isAdmin')) {
+            $title .= 'All Borrowing';
+        }
+
+        return view('borrow.borrow', [
+            'title' => $title,
+            'borrows' => Borrow::all()
+        ]);
     }
 
     /**
@@ -54,9 +66,9 @@ class BorrowController extends Controller
                 'user_id' => $validateData['user_id'],
                 'books_id' => $validateData['book_id'],
             ]);
-            return back()->with('successBorrow', 'Buku berhasil dipinjam');
+            return back()->with('successMessage', 'Buku berhasil dipinjam');
         }
-        return back()->with('errorBorrow', 'Buku gagal dipinjam');
+        return back()->with('errorMessage', 'Buku gagal dipinjam');
     }
 
     /**
@@ -88,9 +100,19 @@ class BorrowController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Borrow $borrow)
     {
-        //
+        $borrow_update = $borrow->update([
+            'status' => $request->status
+        ]);
+        if ($borrow_update) {
+            $book_update = Books::where('id', $request->book_id)->first();
+            $book_update = $book_update->update([
+                'stok' => $book_update->stok + 1 
+            ]);
+            return $borrow_update ? back()->with('successMessage', 'Proses pengembalian berhasil') : back()->with('errorMessage', 'Proses pengembalian gagal');
+        }
+        return back()->with('errorMessage', 'Proses pengembalian gagal');
     }
 
     /**

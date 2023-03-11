@@ -19,12 +19,15 @@ class BooksController extends Controller
     public function index()
     {
         $title = '';
-        $books = Books::all();
+        $books = Books::where('title', 'like', '%' . request('search') . '%')->orWhere('penulis', 'like', '%' .  request('search') . '%')->get();
+        if (request('search')) {
+            $title = 'Hasil pencarian dari ' . request('search') . ' | ';
+        }
         if (Gate::allows('isUser')) {
-            $title = 'Overview';
+            $title .= 'Overview';
         }
         if (Gate::allows('isAdmin')) {
-            $title = 'All Book';
+            $title .= 'All Book';
         }
         return view('book.books', [
             'title' => $title,

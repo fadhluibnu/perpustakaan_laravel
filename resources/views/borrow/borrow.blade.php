@@ -1,71 +1,70 @@
 @extends('layouts.main')
 
-@section('content')
-    <div class="p-4">
-        <h1 class="text-lg font-semibold text-gray-800 mb-3">All Collection</h1>
-        <div class="grid grid-cols-3 gap-10 mb-3">
-            @foreach ($categories as $category)
-                <div class="bg-white rounded-lg overflow-hidden relative">
-                    <img src="{{ asset('storage/' . $category->image) }}" alt=""
-                        class="h-32 w-full rounded-lg object-cover">
-                    <div
-                        class="bg-gradient-to-b from-zinc-600/[0.6] to-zinc-800/[0.8] top-0 bottom-0 left-0 right-0 absolute flex transition-all duration-300 backdrop-blur-none hover:backdrop-blur-sm hover:backdrop-brightness-150">
-                        <div class="m-auto">
-                            <h1 class="text-white font-semibold">{{ $category->name }}</h1>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-        @foreach ($categories as $category)
-            <h1 class="font-semibold">{{ $category->name }}</h1>
-            @foreach ($category->books as $book)
-                <p>{{ $book->title }}</p>
-            @endforeach
-        @endforeach
-        {{-- <div class="grid grid-cols-4 gap-10">
-            <div class="transition rounded-md hover:scale-95 duration-300">
-                <img src="{{ asset('/assets/gusdur.jpg') }}" alt="gusdur" width="100%" height="325"
-                    style="object-fit: cover;" class="rounded">
-                <h1 class="mt-2 font-bold text-lg text-gray-700">Gur Dur</h1>
-                <div class="text-sm flex text-gray-700 items-center font-medium">
-                    <i data-feather="edit-3" width="16px"></i>
-                    <span class="ml-2">Greg Barton</span>
-                </div>
-                <div class="text-sm flex text-gray-700 items-center font-medium">
-                    <i data-feather="calendar" width="16px"></i>
-                    <span class="ml-2">Maret 20, 2022 </span>
-                </div>
-                <div class="text-sm flex text-gray-700 items-center font-medium">
-                    <i data-feather="layers" width="16px"></i>
-                    <span class="ml-2">200 Pages</span>
-                </div>
-            </div>
-        </div> --}}
-    </div>
-@endsection
 @section('contentAdmin')
     <div class="p-4">
         <div class="flex justify-between items-center">
             <h1 class="text-lg font-semibold text-gray-800 mb-3">Data Category</h1>
-            <a href="{{ route('category.create') }}"
-                class="transition-all duration-500 bg-blue-500 rounded-lg text-white font-medium px-5 py-2.5 focus:ring-2
-                focus:ring-blue-500 focus:ring-offset-2 text-center hover:bg-blue-600 text-sm">Tambah
-                Category</a>
+            <form action="" method="post" class="inline-block w-5/12 flex justify-end">
+                <label class="relative block">
+                    <span class="sr-only">Search</span>
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-5 h-5 stroke-slate-400">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                    </span>
+                    <input
+                        class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm w-full"
+                        placeholder="Cari kode peminjaman ..." type="text" name="search" />
+                </label>
+                <button type="button"
+                    class="transition-all duration-500 bg-gradient-to-br from-blue-400 to-blue-500 px-4 rounded-lg ml-2 font-medium text-sm text-white shadow-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:shadow-none shadow-blue-100">Search</button>
+            </form>
         </div>
         <div class="mt-6">
             <div class="overflow-auto rounded-lg shadow hidden lg:block w-full mt-5 md:mt-0 md:col-span-2">
                 <table class="table-auto w-full">
                     <thead class="bg-gray-50 border-b-2 border-gray-200">
                         <tr>
-                            <th class="w-6 p-3 text-sm font-semibold tracking-wide text-left">#</th>
-                            <th class="w-44 p-3 text-sm font-semibold tracking-wide text-left">Name</th>
-                            <th class="w-28 p-3 text-sm font-semibold tracking-wide text-left">Jumlah Buku</th>
-                            <th class="w-8 p-3 text-sm font-semibold tracking-wide text-left">Action</th>
+                            <th class="p-3 text-sm font-semibold tracking-wide text-left">#</th>
+                            <th class="p-3 text-sm font-semibold tracking-wide text-left">Kode Peminjaman</th>
+                            <th class="p-3 text-sm font-semibold tracking-wide text-left">Judul Buku</th>
+                            <th class="p-3 text-sm font-semibold tracking-wide text-left">Peminjam</th>
+                            <th class="p-3 text-sm font-semibold tracking-wide text-left">Tgl Pinjam</th>
+                            <th class="p-3 text-sm font-semibold tracking-wide text-left">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        @foreach ($categories as $category)
+                        @foreach ($borrows as $borrow)
+                            <tr>
+                                <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                    {{ $loop->iteration }}
+                                </td>
+                                <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                    {{ $borrow->kode_peminjaman }}
+                                </td>
+                                <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                    {{ $borrow->book->title }}
+                                </td>
+                                <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                    {{ $borrow->user->name }}
+                                </td>
+                                <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                    {{ $borrow->created_at->format('d M Y') }}
+                                </td>
+                                <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                    <form action="{{ route('borrow.update', $borrow->kode_peminjaman) }}" method="post">
+                                        @method('put')
+                                        @csrf
+                                        <input type="text" name="book_id" value="{{ $borrow->book_id }}" hidden>
+                                        <input type="text" name="status" value="dikembalikan" hidden>
+                                        <button type="submit" class="transition-all duration-500 bg-gradient-to-br from-red-400 to-red-500 px-4 py-2 rounded-lg ml-2 font-medium text-sm text-white shadow-lg focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:shadow-none shadow-red-100"  onclick="return confirm('Konfirmasi Pengembalian Buku')">Kembalikan</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                        {{-- @foreach ($categories as $category)
                             <tr>
                                 <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
                                     {{ $loop->iteration }}
@@ -102,7 +101,7 @@
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>

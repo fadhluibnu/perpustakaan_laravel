@@ -7,16 +7,27 @@
             @foreach ($books as $book)
                 <a href="{{ route('books.show', $book->slug) }}"
                     class="group transition rounded-md hover:scale-95 duration-300 relative">
+                    @php
+                        $dipinjam = false;
+                    @endphp
                     @if ($book->borrow->isNotEmpty())
                         @foreach ($book->borrow as $borrow)
                             @if ($borrow->user_id == auth()->user()->id && $borrow->status == 'meminjam')
-                                <div class="bg-zinc-800 p-3 py-1 text-white rounded-r-lg text-sm absolute top-3">Dipinjam</div>
+                                @php
+                                    $dipinjam = true;
+                                @endphp
+                                <div class="bg-zinc-800 p-3 py-1 text-white rounded-r text-sm absolute top-3">Dipinjam
+                                </div>
                             @endif
                         @endforeach
-                    @elseif($book->stok == 0)
-                        <div class="bg-zinc-800 p-3 py-1 text-white rounded-r-lg text-sm absolute top-3">Tidak Tersedia</div>
-                    @else
-                        <div class="bg-green-600 p-3 py-1 text-white rounded-r-lg text-sm absolute top-3">Tersedia</div>
+                    @endif
+                    @if ($dipinjam == false)
+                        @if ($book->stok == 0)
+                            <div class="bg-zinc-800 p-3 py-1 text-white rounded-r text-sm absolute top-3">Tidak Tersedia
+                            </div>
+                        @else
+                            <div class="bg-green-600 p-3 py-1 text-white rounded-r text-sm absolute top-3">Tersedia</div>
+                        @endif
                     @endif
                     <img src="{{ asset('storage/' . $book->image) }}" alt="gusdur" class="w-full h-96 object-cover rounded">
                     <h1 class="mt-2 font-bold text-lg text-gray-700 truncate group-hover:truncate-none peer">
