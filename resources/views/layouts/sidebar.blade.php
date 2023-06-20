@@ -1,8 +1,27 @@
 {{-- blue-50/[0.1] --}}
-<div class="w-1/6 h-screen bg-white relative">
+{{-- <div class="md:w-1/ absolute bg-white h-screen">
+    <p>halo</p>
+</div> --}}
+{{-- md:hidden --}}
+
+<div class="flex justify-center">
+    <div class="space-y-2 m-auto p-2 lg:hidden" onclick="openSide()">
+        <div class="w-5 h-0.5 bg-gray-600"></div>
+        <div class="w-5 h-0.5 bg-gray-600"></div>
+        <div class="w-5 h-0.5 bg-gray-600"></div>
+    </div>
+</div>
+<div id="sidebar" class="w-0 lg:w-1/6 transition-all duration-300 absolute lg:static z-10 translate-x-[-400rem] lg:translate-x-[0rem] h-screen bg-white">
     <div class="p-4 py-6 flex items-center justify-center">
-        <img src="{{ asset('/assets/my-logo.png') }}" alt="My Logo" width="18">
-        <span class="font-bold text-xl tracking-wide ml-3 text-[#303030]">iLibrary</span>
+        <div class="space-y-2 mr-4 lg:hidden" onclick="closeSide()">
+            <div class="w-5 h-0.5 bg-gray-600"></div>
+            <div class="w-5 h-0.5 bg-gray-600"></div>
+            <div class="w-5 h-0.5 bg-gray-600"></div>
+        </div>
+        <div class="flex items-center">    
+            <img src="{{ asset('/assets/my-logo.png') }}" alt="My Logo" width="18">
+            <span class="font-bold text-xl tracking-wide ml-3 text-[#303030]">iLibrary</span>
+        </div>
     </div>
     @can('isUser')
         <p class="m-0 px-5 text-base font-medium text-slate-400 mb-2">MENUS</p>
@@ -137,7 +156,7 @@
             </li>
         </ul>
     @endcan
-    <p class="m-0 px-5 text-base font-medium text-slate-400 mb-2">SETTINGS</p>
+    {{-- <p class="m-0 px-5 text-base font-medium text-slate-400 mb-2">SETTINGS</p>
     <ul class="list-none list-inside px-5">
         <li>
             <a href="" class="transition-all ease-in-out duration-300 flex items-center p-3 rounded-lg mb-1">
@@ -149,7 +168,7 @@
                 <p class="ml-2 font-medium {{ Request::is('/') ? 'text-white' : 'text-gray-700' }} ">My Account</p>
             </a>
         </li>
-    </ul>
+    </ul> --}}
     <form action="/logout" method="POST">
         @csrf
         <button type="submit" class="absolute bottom-4 px-5 left-0 right-0">

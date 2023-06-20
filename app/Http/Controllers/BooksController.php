@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Books;
+use App\Models\Borrow;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -114,8 +115,8 @@ class BooksController extends Controller
     public function update(Request $request, Books $book)
     {
         $request['user_id'] = auth()->user()->id;
-        $request['slug'] = Str::of($request->title)->slug('-');
-        $validateData = $request->validate([
+        // $request['slug'] = Str::of($request->title)->slug('-');
+        $validate = [
             'title' => 'sometimes|required|max:255',
             'slug' => 'sometimes|required',
             'kode_buku' => 'sometimes|required|',
@@ -127,7 +128,16 @@ class BooksController extends Controller
             'penerbit' => 'sometimes|required',
             'stok' => 'sometimes|required',
             'thn_terbit' => 'sometimes|required',
-        ]);
+        ];
+        $slug = Str::of($request->title)->slug('-');
+        if ($slug != $book->slug) {
+            $validate['slug'] = 'sometimes|required|unique:books';
+            $request['slug'] = Str::of($request->title)->slug('-');
+        }
+        if ($request['kode_buku'] != $book->kode_buku) {
+            $validate['kode_buku'] = 'sometimes|required|unique:books';
+        }
+        $validateData = $request->validate($validate);
         if ($request['image']) {
             $validateData['image'] = $request->file('image')->store('image_post');
         }
@@ -144,6 +154,8 @@ class BooksController extends Controller
     public function destroy($id)
     {
         Books::destroy($id);
+        $bor = Borrow::where('book_id', $id)->delete();
+        // $bor->delete();
 
         return redirect()->route('books.index')->with('successDelete', 'Book has been deleted!');
     }

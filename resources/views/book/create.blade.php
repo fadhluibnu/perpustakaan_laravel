@@ -15,53 +15,141 @@
                     <div>
                         <label for="judul" class="block mb-2 text-sm font-medium text-gray-900">Judul</label>
                         <input type="text" name="title" id="judul"
-                            class="bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
+                            class="bg-gray-50 border-2 
+                            @if($errors->has('slug'))
+                                    dark:border-rose-500
+                            @else
+                                dark:border-gray-300
+                            @endif
+                            text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
                             placeholder="Kisah Nyata" required>
+                        @error('slug')
+                            <p class="mt-1 text-left text-sm text-red-600 mb-0">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
                     <div>
                         <label for="penulis" class="block mb-2 text-sm font-medium text-gray-900">Penulis</label>
                         <input type="text" name="penulis" id="penulis"
-                            class="bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
+                            class="bg-gray-50 border-2 
+                            @if($errors->has('penulis'))
+                                    dark:border-rose-500
+                            @else
+                                dark:border-gray-300
+                            @endif
+                            text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
                             placeholder="Kisah Nyata" required>
+                        @error('penulis')
+                            <p class="mt-1 text-left text-sm text-red-600 mb-0">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
                     <div>
                         <label for="penerbit" class="block mb-2 text-sm font-medium text-gray-900">Penerbit</label>
                         <input type="text" name="penerbit" id="penerbit"
-                            class="bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
+                            class="bg-gray-50 border-2 
+                            @if($errors->has('penerbit'))
+                                    dark:border-rose-500
+                            @else
+                                dark:border-gray-300
+                            @endif
+                            text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
                             placeholder="Kisah Nyata" required>
+                        @error('penerbit')
+                            <p class="mt-1 text-left text-sm text-red-600 mb-0">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
                     <div>
                         <label for="Jumlah Buku" class="block mb-2 text-sm font-medium text-gray-900">Jumlah Buku</label>
                         <input type="text" name="stok" id="Jumlah Buku"
-                            class="bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
+                            class="bg-gray-50 border-2 
+                            @if($errors->has('stok'))
+                                    dark:border-rose-500
+                            @else
+                                dark:border-gray-300
+                            @endif
+                            text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
                             placeholder="Kisah Nyata" required>
+                        @error('stok')
+                            <p class="mt-1 text-left text-sm text-red-600 mb-0">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
                     <div class="">
                         <label for="Category" class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                         <select name="category_id" id="category"
-                            class="w-full bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5">
+                            class="w-full bg-gray-50 border-2 
+                            @if($errors->has('category_id'))
+                                    dark:border-rose-500
+                            @else
+                                dark:border-gray-300
+                            @endif
+                            text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5">
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
+                        @error('category_id')
+                            <p class="mt-1 text-left text-sm text-red-600 mb-0">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
                     <div>
                         <label for="thn_terbit" class="block mb-2 text-sm font-medium text-gray-900">Tahun Terbit</label>
                         <input type="date" name="thn_terbit" id="thn_terbit"
-                            class="bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
+                            class="bg-gray-50 border-2 
+                            @if($errors->has('thn_terbit'))
+                                    dark:border-rose-500
+                            @else
+                                dark:border-gray-300
+                            @endif
+                            text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
                             placeholder="Kisah Nyata" required>
+                        @error('thn_terbit')
+                            <p class="mt-1 text-left text-sm text-red-600 mb-0">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
                     <div class="w-full">
                         <div>
                             <label for="kodebuku" class="block mb-2 text-sm font-medium text-gray-900">Kode Buku</label>
                             <input type="text" name="kode_buku" id="kodebuku"
-                                class="mb-2 bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
+                                class="mb-2 bg-gray-50 border-2 
+                                @if($errors->has('kode_buku'))
+                                    dark:border-rose-500
+                                @else
+                                    dark:border-gray-300
+                                @endif
+                                text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
                                 placeholder="049472872" required>
+                            @error('kode_buku')
+                                <p class="mt-1 text-left text-sm text-red-600 mb-0">
+                                    {{ $message }}
+                                </p>
+                            @enderror
                         </div>
                         <div>
                             <label for="desc" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
                             <textarea name="description" id="desc" cols="30" rows="10"
-                                class="bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"></textarea>
+                                class="bg-gray-50 border-2 
+                                @if($errors->has('description'))
+                                    dark:border-rose-500
+                                @else
+                                    dark:border-gray-300
+                                @endif
+                                text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"></textarea>
+                            @error('description')
+                                <p class="mt-1 text-left text-sm text-red-600 mb-0">
+                                    {{ $message }}
+                                </p>
+                            @enderror
                         </div>
                     </div>
                     <label class="block">
@@ -75,6 +163,11 @@
                           hover:file:bg-violet-100
                         "
                             onchange="showPreview(event)" name="image" />
+                        @error('image')
+                            <p class="mt-1 text-left text-sm text-red-600 mb-0">
+                                {{ $message }}
+                            </p>
+                        @enderror
                         <img id="file-ip-1-preview" class="rounded-lg mt-3">
                     </label>
                 </div>

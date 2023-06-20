@@ -20,21 +20,21 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
-            'name' => 'Test User',
-            'username' => 'test',
-            'email' => 'test@gmail.com',
+            'name' => 'Admin',
+            'username' => 'admin',
+            'email' => 'admin@gmail.com',
             'password' => bcrypt('123'),
             'role' => 'admin',
             'image' => 'image_post/profdef1.jpg',
         ]);
-        \App\Models\User::factory()->create([
-            'name' => 'Visitor 1',
-            'username' => 'visitor',
-            'email' => 'vis@gmail.com',
-            'password' => bcrypt('123'),
-            'role' => 'visitor',
-            'image' => 'image_post/profdef2.jpg',
-        ]);
+        // \App\Models\User::factory()->create([
+        //     'name' => 'Visitor 1',
+        //     'username' => 'visitor',
+        //     'email' => 'vis@gmail.com',
+        //     'password' => bcrypt('123'),
+        //     'role' => 'visitor',
+        //     'image' => 'image_post/profdef2.jpg',
+        // ]);
         Category::factory()->create([
             'name' => 'Biografi',
             'slug' => 'biografi',

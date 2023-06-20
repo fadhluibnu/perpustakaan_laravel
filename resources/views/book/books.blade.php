@@ -3,6 +3,9 @@
 @section('content')
     <div class="p-4">
         <h1 class="text-lg font-semibold text-gray-800 mb-3">Library Collection</h1>
+        @if ($books->isEmpty())
+            <p class="text-sm ">Tidak terdapat buku</p>
+        @endif
         <div class="grid grid-cols-3 gap-10">
             @foreach ($books as $book)
                 <a href="{{ route('books.show', $book->slug) }}"
@@ -62,7 +65,7 @@
                 Buku</a>
         </div>
         <div class="mt-6">
-            <div class="overflow-auto rounded-lg shadow hidden lg:block w-full mt-5 md:mt-0 md:col-span-2">
+            <div class="overflow-auto rounded-lg shadow block w-full mt-5 md:mt-0 md:col-span-2">
                 <table class="table-auto w-full">
                     <thead class="bg-gray-50 border-b-2 border-gray-200">
                         <tr>
@@ -76,6 +79,13 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
+                        @if ($books->isEmpty())
+                        <tr>
+                            <td colspan="7">
+                                <p class="text-sm p-5">Tidak terdapat buku</p>
+                            </td>
+                        </tr>
+                        @endif
                         @foreach ($books as $book)
                             <tr>
                                 <td class="p-3 text-sm text-gray-700 whitespace-nowrap">

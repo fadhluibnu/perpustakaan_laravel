@@ -3,9 +3,12 @@
 @section('content')
     <div class="p-4">
         <h1 class="text-lg font-semibold text-gray-800 mb-3">All Collection</h1>
-        <div class="grid grid-cols-3 gap-10 mb-3">
+        @if ($categories->isEmpty())
+            <p class="text-sm ">Tidak terdapat category</p>
+        @endif
+        <div class="grid grid-cols-3 gap-10 mb-8">
             @foreach ($categories as $category)
-                <div class="bg-white rounded-lg overflow-hidden relative">
+                <a href="{{ route('category.show', $category->slug) }}" class="bg-white rounded-lg overflow-hidden relative">
                     <img src="{{ asset('storage/' . $category->image) }}" alt=""
                         class="h-32 w-full rounded-lg object-cover">
                     <div
@@ -14,34 +17,59 @@
                             <h1 class="text-white font-semibold">{{ $category->name }}</h1>
                         </div>
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
         @foreach ($categories as $category)
-            <h1 class="font-semibold">{{ $category->name }}</h1>
-            @foreach ($category->books as $book)
-                <p>{{ $book->title }}</p>
-            @endforeach
-        @endforeach
-        {{-- <div class="grid grid-cols-4 gap-10">
-            <div class="transition rounded-md hover:scale-95 duration-300">
-                <img src="{{ asset('/assets/gusdur.jpg') }}" alt="gusdur" width="100%" height="325"
-                    style="object-fit: cover;" class="rounded">
-                <h1 class="mt-2 font-bold text-lg text-gray-700">Gur Dur</h1>
-                <div class="text-sm flex text-gray-700 items-center font-medium">
-                    <i data-feather="edit-3" width="16px"></i>
-                    <span class="ml-2">Greg Barton</span>
-                </div>
-                <div class="text-sm flex text-gray-700 items-center font-medium">
-                    <i data-feather="calendar" width="16px"></i>
-                    <span class="ml-2">Maret 20, 2022 </span>
-                </div>
-                <div class="text-sm flex text-gray-700 items-center font-medium">
-                    <i data-feather="layers" width="16px"></i>
-                    <span class="ml-2">200 Pages</span>
-                </div>
+            <h1 class="font-semibold text-lg mb-3">{{ $category->name }}</h1>
+            <div class="grid grid-cols-4 gap-10 mb-8">
+                @foreach ($category->books as $book)
+                    <a href="{{ route('books.show', $book->slug) }}"
+                        class="group transition rounded-md hover:scale-95 duration-300 relative">
+                        @php
+                            $dipinjam = false;
+                        @endphp
+                        @if ($book->borrow->isNotEmpty())
+                            @foreach ($book->borrow as $borrow)
+                                @if ($borrow->user_id == auth()->user()->id && $borrow->status == 'meminjam')
+                                    @php
+                                        $dipinjam = true;
+                                    @endphp
+                                    <div class="bg-zinc-800 p-3 py-1 text-white rounded-r text-sm absolute top-3">Dipinjam
+                                    </div>
+                                @endif
+                            @endforeach
+                        @endif
+                        @if ($dipinjam == false)
+                            @if ($book->stok == 0)
+                                <div class="bg-zinc-800 p-3 py-1 text-white rounded-r text-sm absolute top-3">Tidak Tersedia
+                                </div>
+                            @else
+                                <div class="bg-green-600 p-3 py-1 text-white rounded-r text-sm absolute top-3">Tersedia</div>
+                            @endif
+                        @endif
+                        <img src="{{ asset('storage/' . $book->image) }}" alt="gusdur" class="w-full h-96 object-cover rounded">
+                        <h1 class="mt-2 font-bold text-lg text-gray-700 truncate group-hover:truncate-none peer">
+                            {{ $book->title }}</h1>
+                        <div
+                            class="p-2 absolute bg-white shadow-lg border border border-slate-300 rounded right-0 left-0 transition-all duration-300 z-[-10] peer-hover:z-10 opacity-0 translate-y-5 peer-hover:translate-y-0 peer-hover:opacity-100 hover:translate-y-0 hover:opacity-100 hover:z-10">
+                            {{ $book->title }}</div>
+                        <div class="text-sm flex text-gray-700 items-center font-medium">
+                            <i data-feather="edit-3" width="16px"></i>
+                            <span class="ml-2">{{ $book->penulis }}</span>
+                        </div>
+                        <div class="text-sm flex text-gray-700 items-center font-medium">
+                            <i data-feather="calendar" width="16px"></i>
+                            <span class="ml-2">Maret 20, 2022</span>
+                        </div>
+                        <div class="text-sm flex text-gray-700 items-center font-medium">
+                            <i data-feather="layers" width="16px"></i>
+                            <span class="ml-2">200 Pages</span>
+                        </div>
+                    </a>
+                @endforeach
             </div>
-        </div> --}}
+        @endforeach
     </div>
 @endsection
 @section('contentAdmin')
@@ -65,6 +93,13 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
+                        @if ($categories->isEmpty())
+                        <tr>
+                            <td colspan="7">
+                                <p class="text-sm p-5">Tidak terdapat category</p>
+                            </td>
+                        </tr>
+                        @endif
                         @foreach ($categories as $category)
                             <tr>
                                 <td class="p-3 text-sm text-gray-700 whitespace-nowrap">

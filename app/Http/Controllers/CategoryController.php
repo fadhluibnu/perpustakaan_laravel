@@ -58,9 +58,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return view('category.show', [
+            'title' => $category->name,
+            'category' => $category
+        ]);
     }
 
     /**
@@ -86,12 +89,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $request['slug'] = Str::of($request->name)->slug('-');
-        $validateData = $request->validate([
+        $validate = [
             'name' => 'sometimes|required',
-            'slug' => 'sometimes|required|unique:categories',
             'image' => 'sometimes|required',
-        ]);
+        ];
+        $slug = Str::of($request->name)->slug('-');
+        if ($slug != $category->slug) {
+            $validate += ['slug' => 'sometimes|required|unique:categories'];
+            $request['slug'] = Str::of($request->name)->slug('-');
+        }
+        $validateData = $request->validate($validate);
         if ($request->image) {
             $validateData['image'] = $request->file('image')->store('image_post');
         }

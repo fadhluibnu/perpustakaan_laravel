@@ -97,11 +97,11 @@
             @include('layouts.sidebar')
             <!-- shadow-sm border-slate-300 focus:outline focus:outline-2 focus:outline-offset-1 focus:outline-sky-200 focus:border-sky-500 focus:ring-sky-500 rounded-full placeholder-slate-400 -->
             <div
-                class="{{ auth()->user()->role != 'admin' && Request::is('books') ? 'w-[50rem]' : 'w-5/6' }} bg-slate-50/[0.1] h-screen overflow-y-auto">
+                class="{{ auth()->user()->role != 'admin' && Request::is('books') ? 'w-full lg:w-[50rem]' : 'lg:w-5/6' }} bg-slate-50/[0.1] h-screen overflow-y-auto">
                 @if (Request::is('category') || Request::is('books') || Request::is('borrow'))
                     <div class="flex p-2 items-center">
                         <div
-                            class="flex p-3 px-4 rounded-lg bg-white shadow-sm text-sm items-center ml-2 text-gray-700">
+                            class="lg:flex p-3 px-4 rounded-lg bg-white shadow-sm text-sm items-center ml-2 text-gray-700 hidden ">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -114,6 +114,8 @@
                             action="{{ route('books.index') }}"
                         @elseif(Request::is('borrow*'))
                             action="{{ route('borrow.index') }}" 
+                        @elseif(Request::is('category*'))
+                            action="{{ route('category.index') }}" 
                         @endif 
                         method="get" class="w-full flex justify-end ml-3">
                             <label class="relative block w-full">
@@ -154,7 +156,7 @@
             @can('isUser')
                 {{-- w-2/6  --}}
                 @if (Request::is(route('books.index', '*')))
-                    <div class="w-[30rem] bg-white h-screen">
+                    <div class="lg:w-[30rem] w-[0rem] bg-white h-screen">
                     </div>
                 @endif
             @endcan
@@ -263,7 +265,19 @@
         clsNotif.onclick = function() {
             notif.classList.add("hidden");
         }
-    </script>+
+        function openSide(){
+            const side = document.querySelector('#sidebar');
+            side.classList.add('translate-x-[0rem]')
+            side.classList.add('w-full')
+            side.classList.remove('w-0')
+            side.classList.remove('translate-x-[-400rem]')
+        }
+        function closeSide(){
+            const side = document.querySelector('#sidebar');
+            side.classList.add('translate-x-[-400rem]')
+            side.classList.remove('translate-x-[0rem]')
+        }
+    </script>
 </body>
 
 </html>

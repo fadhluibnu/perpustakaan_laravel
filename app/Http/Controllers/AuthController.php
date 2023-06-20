@@ -22,12 +22,14 @@ class AuthController extends Controller
             return redirect()->intended('/');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        return back()->with('errorMessage', 'Login failed!');
     }
     public function Register(Request $request)
     {
+        $image = [
+            'image_post/profdef1.jpg',
+            'image_post/profdef2.jpg'
+        ];
         $credentials = $request->validate([
             'name' => 'required',
             'username' => 'required|unique:users',
@@ -36,6 +38,7 @@ class AuthController extends Controller
         ]);
         $credentials['password'] = Hash::make($credentials['password']);
         $credentials['role'] = 'visitor';
+        $credentials['image'] = $image[rand(0,1)];
         $store = User::create($credentials);
         if ($store) {
             $request->session()->regenerate();

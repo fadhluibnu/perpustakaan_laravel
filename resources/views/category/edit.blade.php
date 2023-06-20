@@ -6,7 +6,7 @@
         @csrf
         <div class="bg-white rounded-xl overflow-hidden">
             <div class="p-3 bg-blue-500">
-                <a href="/" class="text-sm font-medium text-blue-500 flex items-center">
+                <a href="{{ route('category.index') }}" class="text-sm font-medium text-blue-500 flex items-center">
                     <i data-feather="arrow-left" class="w-5 h-5 text-white"></i>
                     <span class="ml-2 text-white">Edit category</span>
                 </a>
@@ -16,8 +16,19 @@
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
                         <input type="text" name="name" id="name"
-                            class="bg-gray-50 border-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
+                            class="bg-gray-50 border-2 
+                            @if($errors->has('slug'))
+                                    dark:border-rose-500
+                            @else
+                                dark:border-gray-300
+                            @endif
+                            text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-white block w-full p-2.5"
                             placeholder="Kisah Nyata" required value="{{ $category->name }}">
+                        @error('slug')
+                            <p class="mt-1 text-left text-sm text-red-600 mb-0">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
                     <label class="block">
                         <span class="sr-only">Choose profile photo</span>

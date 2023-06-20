@@ -22,14 +22,14 @@
                         <input type="text" name="status" value="meminjam" hidden>
                         <button type="submit"
                             class="w-full mt-3 transition-all duration-500 enabled:bg-gradient-to-br enabled:from-blue-400 enabled:to-blue-600 rounded-lg text-white font-medium p-4 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center hover:bg-blue-600 text-sm shadow-lg hover:shadow-xl shadow-blue-200 hover:shadow-blue-200 focus:shadow-none disabled:shadow-none disabled:bg-slate-700 disabled:cursor-not-allowed"
-                            @if ($book->borrow->isNotEmpty()) 
-                                @foreach ($book->borrow as $borrow)
+                            @if ($book->stok == 0) 
+                                @disabled(true) 
+                            @elseif ($book->borrow->isNotEmpty()) 
+                                @foreach ($book->borrow->where('status', 'meminjam') as $borrow)
                                     @if ($book->stok == 0 || $borrow->user_id == auth()->user()->id)
                                         @disabled(true) 
                                     @endif
                                 @endforeach
-                            @elseif ($book->stok == 0) 
-                                @disabled(true) 
                             @endif>Pinjam
                         </button>
                     </form>
@@ -44,7 +44,7 @@
                         <div class="flex relative @if ($book->histories->isNotEmpty()) ml-2 @endif mt-2 items-center">
                             @if ($book->histories)
                                 @if ($book->histories->isNotEmpty())
-                                    @foreach ($book->histories as $history)
+                                    @foreach ($book->histories->unique('user_id') as $history)
                                         <img src="{{ asset('storage/' . $history->user->image) }}"
                                             alt="{{ $history->user->name }}"
                                             class="w-10 h-10 overflow-hidden rounded-full object-cover border border-white relative -ml-3">

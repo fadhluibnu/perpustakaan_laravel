@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,7 @@ Route::middleware(['auth'])->group(function(){
     ]);
 
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/generate-pdf/{id}', [PDFController::class, 'generatePDF']);
 });
 Route::middleware(['guest'])->group(function(){
     Route::get('/login', function () {

@@ -2,31 +2,45 @@
 
 @section('content')
     <div class="grid grid-cols-3 gap-4 p-4">
+        @if ($borrows->isEmpty())
+            <p class="text-sm ">Tidak ada peminjaman</p>
+        @endif
         @foreach ($borrows as $borrow)
-            <a href="{{ route('books.show', $borrow->book->slug) }}" class="bg-white rounded-lg">
-                <div class="grid grid-cols-3 gap-4 p-4">
-                    <img src="{{ asset('storage/' . $borrow->book->image) }}" alt="{{ $borrow->book->title }}"
-                        class="object-cover h-40 rounded-lg shadow">
-                    <div class="col-span-2">
-                        <div class="mb-2">
-                            <h1 class="font-semibold text-gray-800 text-sm">Judul</h1>
-                            <p class="text-gray-800 text-sm">{{$borrow->book->title}}</p>
-                        </div>
-                        <div class="mb-2">
-                            <h1 class="font-semibold text-gray-800 text-sm">Dipinjam</h1>
-                            <p class="text-gray-800 text-sm bg-gradient-to-br from-green-500 to-green-600 inline-block text-white p-1 px-2 rounded mt-px">{{$borrow->created_at->setTimezone('Asia/Jakarta')->format('d M Y')}}</p>
-                        </div>
-                        <div class="mb-2">
-                            <h1 class="font-semibold text-gray-800 text-sm">Dikembalikan</h1>
-                            @if ($borrow->status == 'meminjam')
-                                <p class="text-gray-800 text-sm bg-gradient-to-br from-red-500 to-red-600 inline-block text-white p-1 px-2 rounded mt-px">Belum dikembalikan</p>
-                            @else
-                                <p class="text-gray-800 text-sm bg-gradient-to-br from-green-500 to-green-600 inline-block text-white p-1 px-2 rounded mt-px">{{$borrow->updated_at->setTimezone('Asia/Jakarta')->format('d M Y')}}</p>
-                            @endif
+            <div class="bg-white rounded-lg">
+                <a href="{{ route('books.show', $borrow->book->slug) }}">
+                    <div class="grid grid-cols-3 gap-4 p-4">
+                        <img src="{{ asset('storage/' . $borrow->book->image) }}" alt="{{ $borrow->book->title }}"
+                            class="object-cover h-40 rounded-lg shadow">
+                        <div class="col-span-2">
+                            <div class="mb-2">
+                                <h1 class="font-semibold text-gray-800 text-sm">Judul</h1>
+                                <p class="text-gray-800 text-sm">{{ $borrow->book->title }}</p>
+                            </div>
+                            <div class="mb-2">
+                                <h1 class="font-semibold text-gray-800 text-sm">Dipinjam</h1>
+                                <p
+                                    class="text-gray-800 text-sm bg-gradient-to-br from-green-500 to-green-600 inline-block text-white p-1 px-2 rounded mt-px">
+                                    {{ $borrow->created_at->setTimezone('Asia/Jakarta')->format('d M Y') }}</p>
+                            </div>
+                            <div class="mb-2">
+                                <h1 class="font-semibold text-gray-800 text-sm">Dikembalikan</h1>
+                                @if ($borrow->status == 'meminjam')
+                                    <p
+                                        class="text-gray-800 text-sm bg-gradient-to-br from-red-500 to-red-600 inline-block text-white p-1 px-2 rounded mt-px">
+                                        Belum dikembalikan</p>
+                                @else
+                                    <p
+                                        class="text-gray-800 text-sm bg-gradient-to-br from-green-500 to-green-600 inline-block text-white p-1 px-2 rounded mt-px">
+                                        {{ $borrow->updated_at->setTimezone('Asia/Jakarta')->format('d M Y') }}</p>
+                                @endif
+                            </div>
                         </div>
                     </div>
+                </a>
+                <div class="p-4">
+                    <a href="/generate-pdf/{{ $borrow->id }}" class="w-full bg-blue-600 mt-1 rounded-lg text-white font-medium p-3 text-sm inline-block text-center">Export to PDF</a>
                 </div>
-            </a>
+            </div>
         @endforeach
     </div>
 @endsection
@@ -34,7 +48,7 @@
 @section('contentAdmin')
     <div class="p-4">
         <div class="flex justify-between items-center">
-            <h1 class="text-lg font-semibold text-gray-800 mb-3">Data Category</h1>
+            <h1 class="text-lg font-semibold text-gray-800 mb-3">Data Peminjaman</h1>
             {{-- <form action="" method="post" class="inline-block w-5/12 flex justify-end">
                 <label class="relative block">
                     <span class="sr-only">Search</span>
@@ -67,6 +81,13 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
+                        @if ($borrows->isEmpty())
+                            <tr>
+                                <td colspan="6">
+                                    <p class="text-sm p-5">Tidak terdapat perminjaman</p>
+                                </td>
+                            </tr>
+                        @endif
                         @foreach ($borrows as $borrow)
                             <tr>
                                 <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
@@ -93,10 +114,7 @@
                                         <button type="submit"
                                             class="transition-all duration-500 enabled:bg-gradient-to-br enabled:from-red-400 enabled:to-red-500 px-4 py-2 rounded-lg ml-2 font-medium text-sm enabled:text-white disabled:text-slate-800 shadow-lg focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:shadow-none shadow-red-100 disabled:shadow-none disabled:bg-slate-300 disabled:cursor-not-allowed"
                                             onclick="return confirm('Konfirmasi Pengembalian Buku')"
-                                            @if ($borrow->status == "dikembalikan")
-                                                @disabled(true) 
-                                            @endif
-                                            >Kembalikan</button>
+                                            @if ($borrow->status == 'dikembalikan') @disabled(true) @endif>Kembalikan</button>
                                     </form>
                                 </td>
                             </tr>
