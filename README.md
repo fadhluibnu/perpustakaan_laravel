@@ -40,7 +40,7 @@ Sitem ilibiray digunakan ditujukan untuk peminjaman buku secara online di sebuah
 Anda bisa membuka website ini di domain [ilibrary.ficode.my.id](https://ilibrary.ficode.my.id). Jika ingin masuk sebagai admin, gunakan email dan password berikut
 
 ```
-Email : admin@admin.com
+Email : admin@gmail.com
 Password : 123
 ```
 
