@@ -1,4 +1,4 @@
-# Documentation Ilibray 
+# Documentation ilibray 
 
 Sitem ilibiray digunakan ditujukan untuk peminjaman buku secara online di sebuah perpustakaan. Project ini merupakan tugas Uji Kopetensi Dasar atau UKK. Dalam ujian tersebut kami sebagai siswa di beri tugas untuk membuat sistem yang bisa menjalankan CRUD serta Authentication dan bisa menambahkan fitur sesuai kreatifitas/pengembangan masing masing.
 
