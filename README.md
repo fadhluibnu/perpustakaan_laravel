@@ -49,6 +49,7 @@ composer install
 npm install
 ren .env.example .env
 php artisan key:generate
+php artisan migrate
 ```
 
 ### Run Project
