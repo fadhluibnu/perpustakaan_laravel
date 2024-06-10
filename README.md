@@ -35,9 +35,39 @@ Sitem ilibiray digunakan ditujukan untuk peminjaman buku secara online di sebuah
 - Laravel
 - MySQL
 
+## Install Project
+
+Ikuti Instruksi Dibawah 
+
+### Installasi
+Buat Database dengan nama `laravel` atau jika ingin custom ubah file `.env.example` pada bagian `DB_DATABASE` sesuai yang anda inginkan
+
+```
+git clone https://github.com/fadhluibnu/perpustakaan_laravel.git
+cd perpustakaan_laravel
+composer install
+npm install
+ren .env.example .env
+php artisan key:generate
+```
+
+### Run Project
+
+Buka terminal, jalankan perintah
+
+```
+php artisan serve
+```
+
+Buka terminal Baru, jalankan perintah
+
+```
+npm run dev
+```
+
 ## To Try
 
-Anda bisa membuka website ini di domain [ilibrary.ficode.my.id](https://ilibrary.ficode.my.id). Jika ingin masuk sebagai admin, gunakan email dan password berikut
+Setelah anda jalankan, Jika ingin masuk sebagai admin, gunakan email dan password berikut
 
 ```
 Email : admin@gmail.com
